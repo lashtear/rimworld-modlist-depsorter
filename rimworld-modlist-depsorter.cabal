@@ -1,0 +1,22 @@
+name:                rimworld-modlist-depsorter
+version:             0.1.0.0
+synopsis:            Sorts mods for the Rimworld game
+license:             BSD3
+license-file:        LICENSE.md
+author:              Emily Backes
+maintainer:          lucca@accela.net
+copyright:           © 2017 Emily Backes
+Category:            Game
+build-type:          Simple
+cabal-version:       >=1.10
+
+executable rimworld-modlist-depsorter
+  build-depends:
+                base >=4.7 && < 5,
+                bytestring,
+                containers,
+                vector,
+                transformers
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+  ghc-options:         -Wall
