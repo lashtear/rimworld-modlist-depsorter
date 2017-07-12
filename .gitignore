@@ -1,2 +1,5 @@
 *~
 /dist
+/src/RuleParser.hs
+/src/RuleParserData.hs
+/src/RuleParser.info

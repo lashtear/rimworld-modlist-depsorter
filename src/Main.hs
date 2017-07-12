@@ -10,11 +10,12 @@ import qualified Data.Text                 as Text
 import qualified Data.Text.IO              as TextIO
 import qualified Filesystem                as FS
 import           Filesystem.Path.CurrentOS ((</>))
+import qualified Filesystem.Path.CurrentOS as FSP
 import           System.Environment        (getArgs)
 
 import           Mod
 import           Rules
-import           XML
+import           XML                       (modsConfigData)
 
 filterJust :: [Maybe a] -> [a]
 filterJust as = concatMap toList as
@@ -30,10 +31,11 @@ main = do
     moddirs <- concat <$> mapM FS.listDirectory modtrees
     mods <- ((sortBy (compare `on` modNorm)) . filterJust) <$>
            mapM modFromPath moddirs
-    case parseRules ruleFile ruleText of
+    case parseRules (FSP.decodeString ruleFile) ruleText of
       Left e  -> putStrLn e
       Right r -> let rules = r in
-        let depMods = map (applyRules rules) mods
+        let modns = Set.fromList $ map modNorm mods
+            depMods = map (applyRules modns rules) mods
             allMods = Set.fromList $ map modNorm depMods
             allHard = Set.unions $ map hardDep depMods
             missing = Set.difference allHard allMods in
