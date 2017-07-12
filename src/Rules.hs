@@ -17,8 +17,8 @@ import           Prelude                   hiding (FilePath)
 
 
 import           Mod                       (Mod (..), modNorm)
-import           RuleLexer
-import           RuleParser
+import           RuleLexer                 (lexRules)
+import           RuleParser                (parse)
 import           RuleTypes
 
 expMatch :: Exp -> Text -> Bool
@@ -43,23 +43,16 @@ objectResolve s (ExpStart t)  =
 objectResolve s e = Set.filter (expMatch e) s
 
 applyRule :: Set Text -> Mod -> Rule -> Mod
-applyRule modns m (Rule subject hs object) =
+applyRule modns m r@(Rule subject hs object) =
   if expMatch subject mn
-  then case hs of
-         Hard -> m { hardDep = Set.union (hardDep m) (objectResolve modns object) }
-         Soft -> m { softDep = Set.union (softDep m) (objectResolve modns object) }
+  then let objr = objectResolve modns object in
+         case (hs, objr) of
+           (Hard, s) | Set.null s -> error $ "Mod "++(show m)++" harddep "++(show r)++" not met"
+           (Hard, s) -> m { hardDep = Set.union (hardDep m) s }
+           (Soft, s) -> m { softDep = Set.intersection modns $ Set.union (softDep m) s }
   else m
   where
     mn = modNorm m
-{-
-
-parseRules :: FilePath -> Text -> Either String [Rule]
-parseRules file t =
-  case parse pRules (show file) t of
-    Left e  -> Left $ show e
-    Right r -> Right r
-
--}
 
 applyRules :: Set Text -> [Rule] -> Mod -> Mod
 applyRules modns rs m = foldl (applyRule modns) m rs

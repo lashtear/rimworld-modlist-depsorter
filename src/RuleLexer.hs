@@ -20,6 +20,7 @@ import           RuleTypes
 
 wordMap :: Map String Token
 wordMap = Map.fromList [("has", TokenHas),
+                        ("have", TokenHas),
                         ("not", TokenNot),
                         ("and", TokenAnd),
                         ("or", TokenOr),
@@ -66,7 +67,7 @@ pToken :: Parser Token
 pToken = pReserved <|> pPunct <|> pQuoted
 
 pTokens :: Parser [Token]
-pTokens = (many1 pToken) <* eof
+pTokens = (many1 pToken) <* spaces <* eof
 
 lexRules :: FilePath -> Text -> Either String [Token]
 lexRules file t =
