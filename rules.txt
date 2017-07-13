@@ -1,12 +1,42 @@
+# Default rule for assuming everything uses the core mod shipped with
+# the game
 not "core" has harddep "core".
-starting "misc" and not "miscellaneous core" has harddep "miscellaneous core".
+
+# Miscellaneous CORE deps
+starting "misc" and not "miscellaneous core" has harddep
+    "miscellaneous core".
+containing "craftable robots all robots" has harddep
+    "miscellaneous core" and "misc robots".
+
+# Vegetable Garden addons
 containing "vg" has harddep "vegetable garden".
-starting "rolling table" and not "rolling table" has harddep "rolling table".
-"mead barrel garden add on" has harddep "vegetable garden" and "misc bees n honey".
-"water power basic bridges bridgello no error warnings" has harddep "bridgello" "basic bridges" or "vegetable garden".
-"mj make component from plastic a17" has harddep "mj make plastic and plasteel a17".
-"powerswitch" has softdep "rt power switch".
-"craftable robots all robots a17" has harddep "miscellaneous core" and "misc robots".
+starting "rolling table" and not "rolling table" has harddep
+    "rolling table".
+"mead barrel garden add on" has harddep "vegetable garden" and
+    "misc bees n honey".
+
+# Multiple solution dependencies
+"water power basic bridges bridgello no error warnings" has harddep
+    ("bridgello", "basic bridges", or "vegetable garden").
+
+# basic harddeps
+containing "make component from plastic" has harddep
+    containing "make plastic and plasteel".
 "stuffed floors" has harddep "architect sense".
-("allow tool", "better workbench management", "cold desert nights", "facial stuff 0 17 1 2", "hospitality", "minifyeverything", "power indicators", "psychology", "ss lightning rod", and "stack xxl") have harddep "hugslib".
+
+# A soft dependency
+"powerswitch" has softdep "rt power switch".
+
+# HugsLib deps, showing multi-subject rules
+("allow tool",
+ "better workbench management",
+ "cold desert nights",
+ starting "facial stuff",
+ "hospitality",
+ "minifyeverything",
+ "power indicators",
+ "psychology",
+ "ss lightning rod",
+ or "stack xxl")
+ have harddep "hugslib".
 

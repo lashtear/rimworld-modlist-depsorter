@@ -28,6 +28,7 @@ expMatch (ExpAnd es) t     = all (\e->expMatch e t) es
 expMatch (ExpOr es) t      = any (\e->expMatch e t) es
 expMatch (ExpStart et) t   = et `Text.isPrefixOf` t
 expMatch (ExpContain et) t = et `Text.isInfixOf` t
+expMatch (ExpEnd et) t     = et `Text.isSuffixOf` t
 
 objectResolve :: Set Text -> Exp -> Set Text
 objectResolve s (ExpString t) =

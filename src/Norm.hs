@@ -10,7 +10,7 @@ import           Data.Text.ICU.Normalize (NormalizationMode (..), normalize)
 
 norm :: Text -> Text
 norm =
-  (Text.intercalate $ Text.singleton '_') .
+  (Text.intercalate $ Text.singleton ' ') .
   Text.words .
   Text.strip .
   normSpace .

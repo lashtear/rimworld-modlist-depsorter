@@ -26,6 +26,7 @@ wordMap = Map.fromList [("has", TokenHas),
                         ("or", TokenOr),
                         ("starting", TokenStart),
                         ("containing", TokenContain),
+                        ("ending", TokenEnd),
                         ("harddep", TokenHard),
                         ("softdep", TokenSoft)]
 
@@ -63,8 +64,16 @@ pQuoted =
     pEscape :: Parser Char
     pEscape = (char '\\' *> anyChar) <?> "escape sequence"
 
+pComment :: Parser ()
+pComment =
+  try $
+  spaces *>
+  (char '#') *>
+  (many $ noneOf "\r\n") *>
+  ((endOfLine *> return ()) <|> eof)
+
 pToken :: Parser Token
-pToken = pReserved <|> pPunct <|> pQuoted
+pToken = (many pComment) *> (pReserved <|> pPunct <|> pQuoted)
 
 pTokens :: Parser [Token]
 pTokens = (many1 pToken) <* spaces <* eof

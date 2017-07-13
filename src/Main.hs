@@ -15,6 +15,7 @@ import           System.Environment        (getArgs)
 
 import           Mod
 import           Rules
+import           RuleTypes                 (describe)
 import           XML                       (modsConfigData)
 
 filterJust :: [Maybe a] -> [a]
@@ -41,5 +42,9 @@ main = do
             missing = Set.difference allHard allMods in
           if not $ Set.null missing
           then putStrLn $ "missing: "++show missing
-          else putStrLn $ Text.unpack $ modsConfigData (Text.pack "1557") (map modKey depMods)
+          else do
+            putStrLn $ Text.unpack $ modsConfigData (Text.pack "1557") (map modKey depMods)
+            TextIO.writeFile "rules-out.txt" $
+              Text.unlines $
+              map describe r
 --            putStrLn $ Text.unpack $ dotOfDeps depMods
