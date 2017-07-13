@@ -40,6 +40,13 @@ objectResolve s (ExpStart t)  =
   case Set.split t s of
     (_,ges) ->
       Set.fromList $ takeWhile (t `Text.isPrefixOf`) $ Set.toList ges
+objectResolve s (ExpOr es) =
+  Set.unions $ map (objectResolve s) es
+objectResolve s (ExpAnd es) =
+  let ors = map (objectResolve s) es in
+    if any Set.null ors
+    then Set.empty
+    else Set.unions ors
 objectResolve s e = Set.filter (expMatch e) s
 
 applyRule :: Set Text -> Mod -> Rule -> Mod
