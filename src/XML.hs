@@ -10,6 +10,7 @@ module XML (
            ) where
 
 import           Control.Exception         (catch)
+import           Data.Char                 (chr)
 import           Data.Text                 (Text)
 import qualified Data.Text                 as Text
 import qualified Data.Text.Lazy            as TextL
@@ -38,20 +39,21 @@ modsConfigData buildId mods =
 <ModsConfigData>
   <buildNumber>#{buildId}
   <activeMods>
-  $if null mods
-    <li>Core
-  $else
-    $forall mod <- mods
-      <li>#{mod}
+    $if null mods
+      <li>Core
+    $else
+      $forall mod <- mods
+        <li>#{mod}
 |] of
     [n] ->
+      Text.cons (chr 0xfeff) $
       Text.pack $
       TextL.unpack $
       XML.renderText prs $
       docFromNode n
     _ -> error "error in xml template"
   where
-    prs = (XML.def :: XML.RenderSettings) { XML.rsPretty = True }
+    prs = XML.def--(XML.def :: XML.RenderSettings) { XML.rsPretty = True }
 
 fieldFromDoc :: XML.Name -> XML.Document -> Text
 fieldFromDoc field doc = case

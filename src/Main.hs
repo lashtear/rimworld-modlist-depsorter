@@ -14,8 +14,8 @@ import qualified Filesystem.Path.CurrentOS as FSP
 import           System.Environment        (getArgs)
 
 import           Mod
+import           ModSort
 import           Rules
-import           RuleTypes                 (describe)
 import           XML                       (modsConfigData)
 
 filterJust :: [Maybe a] -> [a]
@@ -26,6 +26,8 @@ main = do
   [ruleFile] <- getArgs
   ruleText <- TextIO.readFile ruleFile
   steamdir <- FS.getAppDataDirectory "Steam"
+  rimconfdir <- (</> "Ludeon Studios/RimWorld by Ludeon Studios/Config") <$>
+               FS.getAppConfigDirectory "unity3d"
   let modtrees = [ steamdir </> "SteamApps/common/RimWorld/Mods"
                  , steamdir </> "SteamApps/workshop/content/294100"
                  ] in do
@@ -43,8 +45,11 @@ main = do
           if not $ Set.null missing
           then putStrLn $ "missing: "++show missing
           else do
-            putStrLn $ Text.unpack $ modsConfigData (Text.pack "1557") (map modKey depMods)
-            TextIO.writeFile "rules-out.txt" $
-              Text.unlines $
-              map describe r
+            TextIO.writeFile (FSP.encodeString $
+                              rimconfdir </> "ModsConfig.xml") $
+              modsConfigData
+              (Text.pack "1557") $
+              map modKey $
+              sortMods depMods
+
 --            putStrLn $ Text.unpack $ dotOfDeps depMods
