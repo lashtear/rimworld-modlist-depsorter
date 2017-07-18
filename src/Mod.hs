@@ -29,15 +29,21 @@ data Mod = Mod { modName   :: Text
 dotOfDeps :: [Mod] -> Text
 dotOfDeps mods =
   Text.pack $
-  "digraph {\nrankdir=LR;\n" ++
+  "digraph {\nratio=auto;\nrankdir=LR;bgcolor=\"#222222\";\n" ++
+  "color=\"#cccccc\";\nfontname=\"sans serif\";\n" ++
+  "node [color=\"#cccccc\",fontcolor=\"#cccccc\",style=filled,fillcolor=\"#444444\"];\n" ++
+  "edge [color=\"#888888\"];\n" ++
   (concatMap modDot mods) ++
   "}"
   where
-    modDot m = concatMap (depDot m) $ Set.toList $ hardDep m
-    depDot m dep = (Text.unpack dep) ++
-                   " -> " ++
-                   (Text.unpack $ modNorm m) ++
-                   ";\n"
+    modDot m =
+      (concatMap (depDot "solid" m) $ Set.toList $ hardDep m)++
+      (concatMap (depDot "dotted" m) $ Set.toList $ softDep m)
+    depDot style m dep = (mn dep) ++
+                         " -> " ++
+                         (mn $ modNorm m) ++
+                         " [style="++style++"];\n"
+    mn m = "\"" ++ (Text.unpack m) ++ "\""
 
 modFromPath :: FilePath -> IO (Maybe Mod)
 modFromPath moddir = do

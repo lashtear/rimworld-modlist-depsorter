@@ -41,3 +41,14 @@ containing "make component from plastic" has harddep
  or "stack xxl")
  have harddep "hugslib".
 
+"a dog said" has softdep "rbse lite edition".
+containing "rbse patch" has harddep "rbse lite edition".
+
+("rimsenal rimhair",
+ "spoons hair mod",
+ starting "xeva s rimhair"
+ or ending "my cute ear")
+has softdep "headgear frame" and starting "facial stuff".
+starting "facial stuff" has softdep "headgear frame".
+
+

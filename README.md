@@ -28,7 +28,7 @@ This project should be buildable with the Cabal packaging system for Haskell.
 ## To-Do
 
 * Better error handling/reporting.
-* Re-enable graphviz output.
+* Actually break softdeps on cycle detection.
 * Automatic dependency discovery (e.g. for HugsLib) by examining patch XMLs and `.dll` dependencies.
 * Support for versioned dependencies and associated (much more complex) solver.
 
