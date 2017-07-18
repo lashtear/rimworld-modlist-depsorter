@@ -30,6 +30,7 @@ containing "make component from plastic" has harddep
 # HugsLib deps, showing multi-subject rules
 ("allow tool",
  "better workbench management",
+ "centralized climate control",
  "cold desert nights",
  starting "facial stuff",
  "hospitality",
