@@ -45,11 +45,13 @@ main = do
           if not $ Set.null missing
           then putStrLn $ "missing: "++show missing
           else do
-            TextIO.writeFile (FSP.encodeString $
-                              rimconfdir </> "ModsConfig.xml") $
-              modsConfigData
-              (Text.pack "1557") $
-              map modKey $
-              sortMods depMods
+            let cfgname = rimconfdir </> "ModsConfig.xml"
+                cfgback = rimconfdir </> "ModsConfig-backup.xml" in do
+              FS.rename cfgname cfgback
+              TextIO.writeFile (FSP.encodeString cfgname) $
+                modsConfigData
+                (Text.pack "1557") $
+                map modKey $
+                sortMods depMods
 
 --            putStrLn $ Text.unpack $ dotOfDeps depMods
