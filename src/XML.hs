@@ -6,8 +6,9 @@ module XML (
   docFromNode,
   modsConfigData,
   fieldFromDoc,
-  docFromPath
-           ) where
+  docFromPath,
+  buildFromPath
+  ) where
 
 import           Control.Exception         (catch)
 import           Data.Char                 (chr)
@@ -70,3 +71,20 @@ docFromPath fp =
   catch
   (sequence $ Just $ XML.readFile XML.def $ FSP.encodeString fp)
   ( \ (_::XML.XMLException) -> return Nothing)
+
+retrieveBuild :: Text -> XML.Document -> Text
+retrieveBuild defBuild doc = case
+  fromDocument doc $|
+  element "ModsConfigData" &/
+  element "buildNumber" &/
+  content of
+    [b] -> b
+    _   -> defBuild
+
+buildFromPath :: Text -> FilePath -> IO Text
+buildFromPath defBuild fp =
+  catch
+  ((retrieveBuild defBuild) <$>
+   (XML.readFile XML.def $ FSP.encodeString fp))
+  (\ (_::XML.XMLException) -> return defBuild)
+

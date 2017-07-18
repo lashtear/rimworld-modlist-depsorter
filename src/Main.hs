@@ -6,7 +6,6 @@ import           Data.Foldable             (toList)
 import           Data.Function             (on)
 import           Data.List                 (sortBy)
 import qualified Data.Set                  as Set
-import qualified Data.Text                 as Text
 import qualified Data.Text.IO              as TextIO
 import qualified Filesystem                as FS
 import           Filesystem.Path.CurrentOS ((</>))
@@ -16,7 +15,7 @@ import           System.Environment        (getArgs)
 import           Mod
 import           ModSort
 import           Rules
-import           XML                       (modsConfigData)
+import           XML
 
 filterJust :: [Maybe a] -> [a]
 filterJust as = concatMap toList as
@@ -28,6 +27,7 @@ main = do
   steamdir <- FS.getAppDataDirectory "Steam"
   rimconfdir <- (</> "Ludeon Studios/RimWorld by Ludeon Studios/Config") <$>
                FS.getAppConfigDirectory "unity3d"
+  build <- buildFromPath "1557" (rimconfdir </> "ModsConfig.xml")
   let modtrees = [ steamdir </> "SteamApps/common/RimWorld/Mods"
                  , steamdir </> "SteamApps/workshop/content/294100"
                  ] in do
@@ -36,8 +36,9 @@ main = do
            mapM modFromPath moddirs
     case parseRules (FSP.decodeString ruleFile) ruleText of
       Left e  -> putStrLn e
-      Right r -> let rules = r in
-        let modns = Set.fromList $ map modNorm mods
+      Right r ->
+        let rules = r
+            modns = Set.fromList $ map modNorm mods
             depMods = map (applyRules modns rules) mods
             allMods = Set.fromList $ map modNorm depMods
             allHard = Set.unions $ map hardDep depMods
@@ -45,12 +46,13 @@ main = do
           if not $ Set.null missing
           then putStrLn $ "missing: "++show missing
           else do
+            putStrLn $ "Found " ++ (show $ length mods) ++ " mods"
+            putStrLn $ "Loaded " ++ (show $ length r) ++ " rules from "++ruleFile
             let cfgname = rimconfdir </> "ModsConfig.xml"
                 cfgback = rimconfdir </> "ModsConfig-backup.xml" in do
               FS.rename cfgname cfgback
               TextIO.writeFile (FSP.encodeString cfgname) $
-                modsConfigData
-                (Text.pack "1557") $
+                modsConfigData build $
                 map modKey $
                 sortMods depMods
 
