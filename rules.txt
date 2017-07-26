@@ -14,6 +14,8 @@ starting "rolling table" and not "rolling table" has harddep
     "rolling table".
 "mead barrel garden add on" has harddep "vegetable garden" and
     "misc bees n honey".
+"vegetable garden" has softdep "misc bees n honey" and "cupro s drinks".
+
 
 # Multiple solution dependencies
 "water power basic bridges bridgello no error warnings" has harddep
@@ -40,6 +42,7 @@ containing "make component from plastic" has harddep
  "ss lightning rod",
  or "stack xxl")
  have harddep "hugslib".
+not ("hugslib" or "core") has softdep "hugslib".
 
 "a dog said" has softdep "rbse lite edition".
 containing "rbse patch" has harddep "rbse lite edition".
@@ -51,4 +54,4 @@ containing "rbse patch" has harddep "rbse lite edition".
 has softdep "headgear frame" and starting "facial stuff".
 starting "facial stuff" has softdep "headgear frame".
 
-
+"housekeeperassistancecatadspatch" has harddep "housekeeperassistancecat" and "a dog said".
