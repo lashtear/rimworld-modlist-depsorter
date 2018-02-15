@@ -56,15 +56,16 @@ modsConfigData buildId mods =
   where
     prs = XML.def--(XML.def :: XML.RenderSettings) { XML.rsPretty = True }
 
-fieldFromDoc :: XML.Name -> XML.Document -> Text
+fieldFromDoc :: Text -> XML.Document -> Text
 fieldFromDoc field doc = case
   fromDocument doc $|
-  element "ModMetaData" &/
-  element field &/
+  laxElement ("ModMetaData" :: Text) &/
+  laxElement field &/
   content of
     [n]   -> n
     _:_:_ -> error $ "multiple "++(show field)++" elements found in About.xml"
-    []    -> error $ "no "++(show field)++" elements found in About.xml"
+    []    -> error $ "no "++(show field)++" elements found in About.xml: " ++
+                         (show doc)
 
 docFromPath :: FilePath -> IO (Maybe XML.Document)
 docFromPath fp =

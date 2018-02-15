@@ -17,7 +17,7 @@ import           TSort
 sortMods :: [Mod] -> [Mod]
 sortMods modList =
   case kahn intBLD of
-    Left e     -> error $ show e
+    Left ke    -> error $ describeKahnError intMod ke
     Right ints -> map (\i->intMod IntMap.! i) ints
   where
     intMod = nodeMap modList

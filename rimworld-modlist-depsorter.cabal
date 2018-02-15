@@ -5,7 +5,7 @@ license:             BSD3
 license-file:        LICENSE.md
 author:              Emily Backes
 maintainer:          lucca@accela.net
-copyright:           © 2017 Emily Backes
+copyright:           © 2017-2018 Emily Backes
 Category:            Game
 build-type:          Simple
 cabal-version:       >=1.10

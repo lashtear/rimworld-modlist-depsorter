@@ -27,7 +27,7 @@ main = do
   steamdir <- FS.getAppDataDirectory "Steam"
   rimconfdir <- (</> "Ludeon Studios/RimWorld by Ludeon Studios/Config") <$>
                FS.getAppConfigDirectory "unity3d"
-  build <- buildFromPath "1557" (rimconfdir </> "ModsConfig.xml")
+  build <- buildFromPath "1722" (rimconfdir </> "ModsConfig.xml")
   let modtrees = [ steamdir </> "SteamApps/common/RimWorld/Mods"
                  , steamdir </> "SteamApps/workshop/content/294100"
                  ] in do

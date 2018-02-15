@@ -45,6 +45,7 @@ dotOfDeps mods =
                          " [style="++style++"];\n"
     mn m = "\"" ++ (Text.unpack m) ++ "\""
 
+
 modFromPath :: FilePath -> IO (Maybe Mod)
 modFromPath moddir = do
   about <- docFromPath $ moddir </> "About/About.xml"

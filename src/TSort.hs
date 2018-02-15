@@ -5,7 +5,8 @@ module TSort (
   KahnError,
   nodeMap,
   revMap,
-  kahn
+  kahn,
+  describeKahnError
   ) where
 
 import           Data.Foldable
@@ -13,8 +14,12 @@ import           Data.IntMap   (IntMap)
 import qualified Data.IntMap   as IntMap
 import           Data.IntSet   (IntSet)
 import qualified Data.IntSet   as IntSet
+import           Data.List     (intercalate)
 import           Data.Map      (Map)
 import qualified Data.Map      as Map
+import qualified Data.Text     as Text
+
+import           Mod
 
 data Graph = Graph { superior :: IntMap IntSet -- ^ Edges by superior node
                    , inferior :: IntMap IntSet -- ^ Edges by inferior
@@ -87,6 +92,24 @@ data BLD = BLD { sub :: Int    -- ^ Subject
          deriving (Eq, Ord, Show)
 
 type KahnError = ([Int], Graph)
+
+describeKahnError :: IntMap Mod -> KahnError -> String
+describeKahnError immod (_, g) =
+  unlines $
+  (map (edgeName "superior") $ IntMap.toList $ superior g) ++
+  (map (edgeName "inferior") $ IntMap.toList $ inferior g)
+  where
+    intName :: Int -> String
+    intName i = Text.unpack $ modNorm $ immod IntMap.! i
+    stringBracket s e t = s++t++e
+    intsName :: IntSet -> String
+    intsName is = stringBracket "(" ")" $
+                  intercalate ", " $
+                  map intName $
+                  IntSet.toList is
+    edgeName :: String -> (Int, IntSet) -> String
+    edgeName relation (subj, targets) =
+      (intName subj) ++ " has " ++ relation ++ " set " ++ (intsName targets)
 
 nodeMap :: Foldable t => t a -> IntMap a
 nodeMap as = IntMap.fromList $ zip [1::Int ..] $ toList as
