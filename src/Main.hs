@@ -2,11 +2,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main (main) where
 
-import           Control.Applicative       ((<|>))
 import           Data.Foldable             (toList)
 import           Data.Function             (on)
-import           Data.List                 (sort, sortBy)
-import qualified Data.Map                  as Map
+import           Data.List                 (sortBy)
 import qualified Data.Set                  as Set
 import qualified Data.Text.IO              as TextIO
 import qualified Filesystem                as FS
@@ -17,7 +15,6 @@ import           System.Environment        (getArgs)
 import           CaseSenseless
 import           Mod
 import           ModSort
-import           Norm                      (foldPath)
 import           Rules
 import           XML
 
@@ -34,7 +31,7 @@ main = do
                                      "RimWorld by Ludeon Studios",
                                      "Config"]
   modsconfig <- tryValidate (return $ rimconfdir </> "ModsConfig.xml")
-  build <- buildFromPath "1722" modsconfig
+  build <- buildFromPath "2009" modsconfig
   modtrees <- mapM ((traverseAll steamdir) . ("SteamApps":))
     [["common", "RimWorld", "Mods"],
      ["workshop", "content", "294100"]]

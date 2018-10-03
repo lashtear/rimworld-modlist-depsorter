@@ -55,7 +55,9 @@ applyRule modns m r@(Rule subject hs object) =
   if expMatch subject mn
   then let objr = objectResolve modns object in
          case (hs, objr) of
-           (Hard, s) | Set.null s -> error $ "Mod "++(show m)++" harddep "++(show r)++" not met"
+           (Hard, s) | Set.null s -> error $ "Rule ["++
+                                    (Text.unpack $ describe r)++
+                                    "] not met"
            (Hard, s) -> m { hardDep = Set.union (hardDep m) s }
            (Soft, s) -> m { softDep = Set.intersection modns $ Set.union (softDep m) s }
   else m

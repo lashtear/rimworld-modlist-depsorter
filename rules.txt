@@ -1,5 +1,6 @@
 # Default rule for assuming everything uses the core mod shipped with
 # the game
+
 #not "core" has harddep "core".
 #not ("hugslib" or "core") has softdep "hugslib".
 #not ("hugslib", "core", or "jecstools") has softdep "jecstools".
@@ -30,13 +31,11 @@ starting "expanded woodworking" has softdep "zen garden".
 # Multiple solution dependencies
 #"water power basic bridges bridgello no error warnings" has harddep
 # ("bridgello", "basic bridges", or "vegetable garden").
-"water power" has harddep containing "basic bridges".
-"water power" has harddep containing "vegetable garden".
+#"water power" has harddep containing "basic bridges".
+#"water power" has harddep containing "vegetable garden".
 
-# basic harddeps
-"stuffed floors" has harddep "architect sense".
+"stuffed floors" has softdep "architect sense".
 
-# A soft dependency
 "powerswitch" has softdep "rt power switch".
 
 # HugsLib deps, showing multi-subject rules
@@ -93,11 +92,6 @@ starting "facial stuff" has softdep "headgear frame".
 
 "biomes" has harddep "biomes core".
 ("rimroads" or "biomes core") has harddep "jecstools".
-
-starting "harvest organs post mortem" has harddep "hugslib".
-starting "harvest organs post mortem a dog said patch" has harddep "a dog said".
-starting "harvest organs post mortem" and not containing "a dog said patch"
-    has harddep "harvest organs post mortem a dog said patch".
 
 starting "giddy up" and not "giddy up core" has harddep "giddy up core".
 
