@@ -59,7 +59,7 @@ main = do
               modsConfigData build $
               map modKey $
               sortMods depMods
-            putStrLn $ "Wrote " ++ (FSP.encodeString cfgname)
+            putStrLn $ "Wrote \"" ++ (FSP.encodeString cfgname) ++ "\""
             TextIO.writeFile "mod-dependencies.dot" $
               dotOfDeps depMods
             putStrLn $ "Wrote mod-dependencies.dot"

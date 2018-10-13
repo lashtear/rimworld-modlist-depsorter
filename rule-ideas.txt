@@ -5,3 +5,11 @@ string terms:
 
 normalizer patterns
 
+variables / quantifiers:
+
+for any mod M where ..., ...
+
+resolved dependency introspection
+
+automated symbol extraction
+

@@ -33,9 +33,11 @@ dotOfDeps mods =
   "color=\"#cccccc\";\nfontname=\"sans serif\";\n" ++
   "node [color=\"#cccccc\",fontcolor=\"#cccccc\",style=filled,fillcolor=\"#444444\"];\n" ++
   "edge [color=\"#888888\"];\n" ++
+  (concatMap (justModDot . modNorm) mods) ++
   (concatMap modDot mods) ++
   "}"
   where
+    justModDot m = (mn m) ++ ";\n"
     modDot m =
       (concatMap (depDot "solid" m) $ Set.toList $ hardDep m)++
       (concatMap (depDot "dotted" m) $ Set.toList $ softDep m)

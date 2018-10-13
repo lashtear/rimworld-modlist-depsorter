@@ -4,15 +4,18 @@
 #not "core" has harddep "core".
 #not ("hugslib" or "core") has softdep "hugslib".
 #not ("hugslib", "core", or "jecstools") has softdep "jecstools".
-#not ("hugslib", "core", or "jecstools") has softdep "jecstools".
-#"jecstools" has harddep "hugslib".
+not ("hugslib", "core", or "jecstools") has softdep "jecstools".
+"jecstools" has harddep "hugslib".
 "hugslib" has harddep "core".
-not ("hugslib" or "core") has softdep "hugslib".
+#not ("hugslib" or "core") has softdep "hugslib".
 
 # Miscellaneous CORE deps
-starting "misc" and not "miscellaneous core" has harddep
-    "miscellaneous core".
-containing "craftable robots all robots" has harddep "misc robots".
+starting "misc" and not
+ ("miscellaneous core",
+  starting "misc craft",
+  or starting "misc robots plus") has harddep "miscellaneous core".
+("misc craftable robots" or
+ "misc robots plus plus") has harddep "misc robots".
 
 (starting "vgp garden",
  starting "vgp soylent",
@@ -24,9 +27,11 @@ starting "cupro s drinks" and not "cupro s drinks core" has harddep
     "cupro s drinks core".
 
 starting "expanded woodworking" has softdep "zen garden".
+starting "expanded woodworking" has softdep "nature s pretty sweet".
+starting "expanded woodworking" has softdep "vgp vegetable garden".
 
-"expanded woodworking for vegetable garden project b18" has harddep "expanded woodworking b18".
-"expanded woodworking for vegetable garden project b18" has harddep "vgp vegetable garden".
+starting "expanded woodworking for vegetable" has harddep "expanded woodworking b19".
+starting "expanded woodworking for vegetable" has harddep "vgp vegetable garden".
 
 # Multiple solution dependencies
 #"water power basic bridges bridgello no error warnings" has harddep
@@ -35,6 +40,7 @@ starting "expanded woodworking" has softdep "zen garden".
 #"water power" has harddep containing "vegetable garden".
 
 "stuffed floors" has softdep "architect sense".
+"stuffed floors" has softdep starting "expanded woodworking for vegetable".
 
 "powerswitch" has softdep "rt power switch".
 
@@ -43,40 +49,95 @@ starting "expanded woodworking" has softdep "zen garden".
 # $ cd ~/.local/share/Steam/SteamApps/workshop/content/294100
 # $ find -type f -print0 |xargs -0 grep HugsLib |cut -d. -f2 |cut -d/ -f2 |sort -u |xargs -I{} grep -i \<name {}/About/About.xml |cut -d\> -f2 |cut -d\< -f1
 
-("allow tool",
+("expanded woodworking b19",
+ "expanded woodworking for vegetable garden project b19",
+ "prepare landing",
  "avoid friendly fire",
- "better workbench management",
- "centralized climate control",
- starting "expanded woodworking",
- starting "giddy up",
- "hand me that brick",
- starting "harvest organs post mortem",
- "hospitality",
- "mineitall",
- "minifyeverything",
- "no forced slowdown",
- "notifications archiver",
- "power indicators",
- "psychology",
- "reasonable components",
  "runandgun",
- "ss lightning rod",
+ "harvest organs post mortem 40 b19",
+ "giddyup core",
+ "giddyup battle mounts",
+ "giddyup caravan",
+ "pick up and haul",
+ "giddyup ride and roll",
+ "animal gear horse",
+ "labels on floor",
+ "wall light",
+ "while youre up 019",
+ "animal gear",
+ "cleaningstation",
+ "search and destroy",
+ "psychology",
+ "death rattle",
+ "run and hide",
+ "what the hack",
+ "mineitall",
+ "shelf renamer",
+ "giddyup mechanoids",
+ "turn it on and off v12 b19",
+ "itemlistselector",
+ "flora",
+ "psychology imprisonment patch",
+ "hospitality",
+ "allow tool",
+ "stack xxl",
+ "more mechanoids",
+ "better workbench management",
  or
- "stack xxl")
+ "centralized climate control")
  have harddep "hugslib".
 
-"a dog said" has softdep "rbse lite edition".
-containing "rbse patch" has harddep "rbse lite edition".
+"a dog said" has softdep "rah s bionics and surgery expansion".
+containing "rbse patch" has harddep "rah s bionics and surgery expansion".
+
+"shear those corpses acp" has harddep "shear those corpses vanilla".
+"shear those corpses acp" has harddep "animalcollabproj".
+
+"horses b19 a dog said patch" has harddep "horses b19".
 
 "lbe s a dog said easy patcher" has harddep "a dog said".
 
-("horses b18",
- "spidercamp s dog pack b18",
+(containing "a dog said patch",
+ containing "ads patch",
+ or
+ containing "patch for a dog said") has harddep "a dog said".
+
+starting "dinosauria patch" has harddep "dinosauria".
+
+"acp eggs patch" has softdep containing "muh eggs".
+"acp eggs patch" has harddep "animalcollabproj".
+(starting "animalcollabproj" or starting "acp") and not "animalcollabproj"
+ has harddep "animalcollabproj".
+
+("horses b19",
+ starting "spidercamp s dog pack",
  "sheep",
+ "dinosauria",
  or "megafauna") has softdep "lbe s a dog said easy patcher".
 
-"hunt for me b18" has softdep "spidercamp s dog pack".
-"hunt for me b18" has softdep "megafauna".
+("horses b19",
+ starting "spidercamp s dog pack",
+ "sheep",
+ "dinosauria",
+ or "megafauna") has softdep "a dog said".
+
+("horses b19",
+ starting "spidercamp s dog pack",
+ "sheep",
+ "dinosauria",
+ or "megafauna") has softdep "rim of madness bones".
+
+"hunt for me b19" has softdep starting "spidercamp s dog pack".
+"hunt for me b19" has softdep "megafauna".
+"hunt for me b19" has softdep "dinosauria".
+
+"megafauna" has softdep "giddy up core".
+
+containing "dinosauria patch" has harddep "dinosauria".
+"geneticrim dinosauria patch" has harddep "geneticrim b19 version".
+containing ("geneticrim" or "genetic rim")
+ and not "geneticrim b19 version" has harddep
+ "geneticrim b19 version".
 
 ("rimsenal rimhair",
  "spoons hair mod",
@@ -91,10 +152,36 @@ starting "facial stuff" has softdep "headgear frame".
  have harddep "mending".
 
 "biomes" has harddep "biomes core".
-("rimroads" or "biomes core") has harddep "jecstools".
+("doors expanded",
+ "xnd targeting modes",
+ "biomes core"
+ or
+ "rimroads") has harddep "jecstools".
 
 starting "giddy up" and not "giddy up core" has harddep "giddy up core".
+"giddy up mechanoids" has harddep "what the hack".
 
-"rf basic bridges b18" has softdep "nature s pretty sweet".
-containing "basic bridges fishing add on" has harddep "rf basic bridges b18".
+"rf basic bridges b19" has softdep "nature s pretty sweet".
+containing "basic bridges fishing add on" has harddep "rf basic bridges b19".
+
+starting "psychology imprisonment patch" has harddep "psychology".
+
+starting "animal gear" and not "animal gear" has harddep "animal gear".
+"animal gear horse" has harddep "horses b19".
+
+containing "medic addons patch" has harddep "medic addons b19".
+"b19 polyamory beds medic addons patch" has harddep
+ "b19 polyamory beds vanilla edition".
+
+"b19 polyamory beds more furniture patch" has harddep
+ "more furniture b19".
+"b19 polyamory beds more furniture patch" has harddep
+ "b19 polyamory beds vanilla edition".
+
+"more vanilla turrets turret extensions patch"
+ has harddep "more vanilla turrets b19".
+"more vanilla turrets turret extensions patch"
+ has harddep "xnd turret extensions".
+
+"kv change dresser b19" has softdep "mendandrecycle".
 

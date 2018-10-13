@@ -16,6 +16,7 @@ norm =
   Text.words .
   Text.strip .
   normSpace .
+  normPlus .
   (toCaseFold False) .
   (normalize NFKC)
   where
@@ -26,6 +27,11 @@ norm =
                     (a,b) -> Text.append a $ normSpace b
                 | otherwise = Text.cons ' ' $
                               normSpace $ Text.dropWhile (not . Char.isAlphaNum) t
+    -- dangit haplo
+    normPlus :: Text -> Text
+    normPlus t = case Text.stripSuffix "++" t of
+      Just p  -> Text.append p " plus plus"
+      Nothing -> t
 
 -- | Normalize the last path component
 foldPath :: FSP.FilePath -> FSP.FilePath
