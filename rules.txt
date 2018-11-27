@@ -1,13 +1,10 @@
 # Default rule for assuming everything uses the core mod shipped with
 # the game
 
-#not "core" has harddep "core".
-#not ("hugslib" or "core") has softdep "hugslib".
-#not ("hugslib", "core", or "jecstools") has softdep "jecstools".
-not ("hugslib", "core", or "jecstools") has softdep "jecstools".
+not ("modcheck", "hugslib", "core", or "jecstools") has softdep "jecstools".
 "jecstools" has harddep "hugslib".
 "hugslib" has harddep "core".
-#not ("hugslib" or "core") has softdep "hugslib".
+"core" has softdep "modcheck".
 
 # Miscellaneous CORE deps
 starting "misc" and not
@@ -30,7 +27,7 @@ starting "expanded woodworking" has softdep "zen garden".
 starting "expanded woodworking" has softdep "nature s pretty sweet".
 starting "expanded woodworking" has softdep "vgp vegetable garden".
 
-starting "expanded woodworking for vegetable" has harddep "expanded woodworking b19".
+starting "expanded woodworking for vegetable" has harddep "expanded woodworking".
 starting "expanded woodworking for vegetable" has harddep "vgp vegetable garden".
 
 # Multiple solution dependencies
@@ -46,61 +43,66 @@ starting "expanded woodworking for vegetable" has harddep "vgp vegetable garden"
 
 # HugsLib deps, showing multi-subject rules
 # e.g.:
-# $ cd ~/.local/share/Steam/SteamApps/workshop/content/294100
-# $ find -type f -print0 |xargs -0 grep HugsLib |cut -d. -f2 |cut -d/ -f2 |sort -u |xargs -I{} grep -i \<name {}/About/About.xml |cut -d\> -f2 |cut -d\< -f1
+# $ cd ~/.local/share/Steam/SteamApps/workshop/content/294100 && find -type f -print0 |xargs -0 grep HugsLib |cut -d. -f2 |cut -d/ -f2 |sort -u |xargs -I{} grep -i \<name {}/About/About.xml |cut -d\> -f2 |cut -d\< -f1 |perl -pe 'tr{A-Za-z}{a-za-z}; s{[^a-z0-9\n]+}{ }g; s{ +}{ }g; s{^ }{}; s{ $}{};'|sort -u |grep -v ^hugslib$ |perl -pe 'chomp; $_="    \"$_\",\n"' | perl -e 'local $/; $_=<>; s{",\n    "(.*)",\n$}{",\n    or "$1")\n    have harddep "hugslib".}; s{^    }{(}; print $_'
+("1 0 medical iv s",
+    "1 0 repower",
+    "allow tool",
+    "animal gear",
+    "animal gear basic",
+    "animal gear horse",
+    "avoid friendly fire",
+    "better workbench management",
+    "blueprint totals tooltip",
+    "cleaningstation",
+    "death rattle",
+    "doors expanded",
+    "expanded woodworking",
+    "expanded woodworking for vegetable garden project",
+    "faction discovery",
+    "flora",
+    "giddy up battle mounts",
+    "giddy up caravan",
+    "giddy up core",
+    "giddy up mechanoids",
+    "giddy up ride and roll",
+    "harvest organs post mortem 4 1 1 0",
+    "hospitality",
+    "itemlistselector",
+    "jecstools",
+    "labels on floor",
+    "mineitall 1 0",
+    "more mechanoids",
+    "nature is beautiful rebalanced v1 3 1 0",
+    "prepare landing",
+    "psychology",
+    "real ruins",
+    "rimhud",
+    "runandgun",
+    "run and hide",
+    "search and destroy",
+    "select turret target",
+    "shelf renamer",
+    "stack xxl",
+    "turn it on and off v1 3 1 0",
+    "wall light",
+    "what the hack",
+    or "while you re up 1 0")
+    have harddep "hugslib".
 
-("expanded woodworking b19",
- "expanded woodworking for vegetable garden project b19",
- "prepare landing",
- "avoid friendly fire",
- "runandgun",
- "harvest organs post mortem 40 b19",
- "giddyup core",
- "giddyup battle mounts",
- "giddyup caravan",
- "pick up and haul",
- "giddyup ride and roll",
- "animal gear horse",
- "labels on floor",
- "wall light",
- "while youre up 019",
- "animal gear",
- "cleaningstation",
- "search and destroy",
- "psychology",
- "death rattle",
- "run and hide",
- "what the hack",
- "mineitall",
- "shelf renamer",
- "giddyup mechanoids",
- "turn it on and off v12 b19",
- "itemlistselector",
- "flora",
- "psychology imprisonment patch",
- "hospitality",
- "allow tool",
- "stack xxl",
- "more mechanoids",
- "better workbench management",
- or
- "centralized climate control")
- have harddep "hugslib".
-
-"a dog said" has softdep "rah s bionics and surgery expansion".
+"a dog said animal prosthetics" has softdep "rah s bionics and surgery expansion".
 containing "rbse patch" has harddep "rah s bionics and surgery expansion".
 
 "shear those corpses acp" has harddep "shear those corpses vanilla".
 "shear those corpses acp" has harddep "animalcollabproj".
 
-"horses b19 a dog said patch" has harddep "horses b19".
+"horses 1 0 a dog said patch" has harddep "horses 1 0".
 
-"lbe s a dog said easy patcher" has harddep "a dog said".
+"lbe s a dog said easy patcher" has harddep "a dog said animal prosthetics".
 
 (containing "a dog said patch",
  containing "ads patch",
  or
- containing "patch for a dog said") has harddep "a dog said".
+ containing "patch for a dog said") has harddep "a dog said animal prosthetics".
 
 starting "dinosauria patch" has harddep "dinosauria".
 
@@ -109,35 +111,35 @@ starting "dinosauria patch" has harddep "dinosauria".
 (starting "animalcollabproj" or starting "acp") and not "animalcollabproj"
  has harddep "animalcollabproj".
 
-("horses b19",
+("horses 1 0",
  starting "spidercamp s dog pack",
  "sheep",
  "dinosauria",
  or "megafauna") has softdep "lbe s a dog said easy patcher".
 
-("horses b19",
+("horses 1 0",
  starting "spidercamp s dog pack",
  "sheep",
  "dinosauria",
- or "megafauna") has softdep "a dog said".
+ or "megafauna") has softdep "a dog said animal prosthetics".
 
-("horses b19",
+("horses 1 0",
  starting "spidercamp s dog pack",
  "sheep",
  "dinosauria",
  or "megafauna") has softdep "rim of madness bones".
 
-"hunt for me b19" has softdep starting "spidercamp s dog pack".
-"hunt for me b19" has softdep "megafauna".
-"hunt for me b19" has softdep "dinosauria".
+#"hunt for me b19" has softdep starting "spidercamp s dog pack".
+#"hunt for me b19" has softdep "megafauna".
+#"hunt for me b19" has softdep "dinosauria".
 
 "megafauna" has softdep "giddy up core".
 
 containing "dinosauria patch" has harddep "dinosauria".
-"geneticrim dinosauria patch" has harddep "geneticrim b19 version".
+"geneticrim dinosauria patch" has harddep "genetic rim".
 containing ("geneticrim" or "genetic rim")
- and not "geneticrim b19 version" has harddep
- "geneticrim b19 version".
+ and not "genetic rim" has harddep
+ "genetic rim".
 
 ("rimsenal rimhair",
  "spoons hair mod",
@@ -154,34 +156,39 @@ starting "facial stuff" has softdep "headgear frame".
 "biomes" has harddep "biomes core".
 ("doors expanded",
  "xnd targeting modes",
- "biomes core"
+ "biomes core",
+ "tv channels dev build",
  or
  "rimroads") has harddep "jecstools".
 
 starting "giddy up" and not "giddy up core" has harddep "giddy up core".
 "giddy up mechanoids" has harddep "what the hack".
 
-"rf basic bridges b19" has softdep "nature s pretty sweet".
-containing "basic bridges fishing add on" has harddep "rf basic bridges b19".
+"rf advanced bridges 1 0" has softdep "nature s pretty sweet".
+containing "rf fishing 1 0" has harddep "rf advanced bridges 1 0".
 
 starting "psychology imprisonment patch" has harddep "psychology".
 
 starting "animal gear" and not "animal gear" has harddep "animal gear".
-"animal gear horse" has harddep "horses b19".
+"animal gear horse" has harddep "horses 1 0".
 
-containing "medic addons patch" has harddep "medic addons b19".
-"b19 polyamory beds medic addons patch" has harddep
- "b19 polyamory beds vanilla edition".
+#containing "medic addons patch" has harddep "medic addons b19".
+#"b19 polyamory beds medic addons patch" has harddep
+# "b19 polyamory beds vanilla edition".
 
-"b19 polyamory beds more furniture patch" has harddep
- "more furniture b19".
-"b19 polyamory beds more furniture patch" has harddep
- "b19 polyamory beds vanilla edition".
+# "kv change dresser b19" has softdep "mendandrecycle".
 
 "more vanilla turrets turret extensions patch"
- has harddep "more vanilla turrets b19".
+ has harddep "more vanilla turrets 1 0".
 "more vanilla turrets turret extensions patch"
  has harddep "xnd turret extensions".
 
-"kv change dresser b19" has softdep "mendandrecycle".
+"additional joy objects" has harddep "deconstruct return fix".
+
+"smokeleaf industry" has softdep starting "vgp".
+"smokeleaf industry" has softdep "architect sense".
+
+"epoe replacement expansion" has harddep "expanded prosthetics and organ engineering".
+
+"extended storage extended" has harddep "extended storage".
 
